@@ -1,6 +1,6 @@
 # Class Wall
 
-A shared grid of squares for [Tech 1, Lecture 6](https://gyanl.com/tech1/lecture-6-localstorage-and-databases). Click a square and it turns your colour on everyone's screen, straight away. It's built with plain HTML, CSS and JavaScript and Firebase Realtime Database, with no build step.
+A shared grid of squares for [Tech 1, Lecture 6](https://gyanl.com/tech1/lecture-6-localstorage-and-databases). Click or drag across the squares and they turn your colour on everyone's screen, straight away. It's built with plain HTML, CSS and JavaScript and Firebase Realtime Database, with no build step.
 
 ## Setup
 

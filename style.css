@@ -61,6 +61,8 @@ header p {
   gap: 1px;
   background: var(--line);
   border: 1px solid var(--line);
+  touch-action: none; /* let a finger draw instead of scrolling the page */
+  user-select: none;
 }
 
 #wall button {
