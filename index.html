@@ -9,16 +9,38 @@
 <body>
   <header>
     <h1>Class Wall</h1>
-    <p>Pick a colour, then click or drag across the squares. Everyone sees it straight away.</p>
-    <label class="picker">
-      Your colour
-      <input type="color" id="colour" value="#ff4343">
-    </label>
+    <p>Click or drag across the squares. Everyone sees it straight away.</p>
+    <button type="button" id="me" class="me" hidden>
+      <span class="swatch" id="me-swatch"></span>
+      <span id="me-name"></span>
+      <span class="me-edit">Change</span>
+    </button>
   </header>
 
-  <div id="wall"></div>
+  <main>
+    <div id="wall"></div>
 
-  <p id="status">Connecting…</p>
+    <aside>
+      <h2>Leaderboard</h2>
+      <ol id="leaderboard"></ol>
+      <p id="status">Connecting…</p>
+    </aside>
+  </main>
+
+  <dialog id="join">
+    <form method="dialog" id="join-form">
+      <h2>Join the wall</h2>
+      <label>
+        Your name
+        <input type="text" id="name" maxlength="20" required autocomplete="off" placeholder="e.g. Upasna">
+      </label>
+      <label>
+        Your colour
+        <input type="color" id="colour" value="#ff4343">
+      </label>
+      <button type="submit">Start drawing</button>
+    </form>
+  </dialog>
 
   <script type="module" src="script.js"></script>
 </body>

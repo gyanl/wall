@@ -40,22 +40,49 @@ header p {
   flex: 1 1 16rem;
 }
 
-.picker {
+button, input {
+  font: inherit;
+}
+
+.swatch {
+  display: inline-block;
+  width: 1rem;
+  height: 1rem;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+.me {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  padding: 0.4rem 0.75rem;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: transparent;
+  color: var(--text);
+  cursor: pointer;
 }
 
-.picker input {
-  width: 3rem;
-  height: 2rem;
-  border: 1px solid var(--line);
-  padding: 0;
-  cursor: pointer;
+.me[hidden] {
+  display: none;
+}
+
+.me-edit {
+  opacity: 0.6;
+  font-size: 0.85rem;
+}
+
+main {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem 1.5rem;
+  align-items: flex-start;
 }
 
 /* A two-dimensional grid of equal squares: a job for grid, not flexbox */
 #wall {
+  flex: 1 1 36rem;
   display: grid;
   grid-template-columns: repeat(32, 1fr);
   gap: 1px;
@@ -73,7 +100,104 @@ header p {
   cursor: pointer;
 }
 
+aside {
+  flex: 1 1 14rem;
+  max-width: 20rem;
+}
+
+h2 {
+  margin: 0 0 0.75rem;
+  font-size: 1.1rem;
+}
+
+#leaderboard {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: rank;
+}
+
+#leaderboard li {
+  counter-increment: rank;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0;
+  border-bottom: 1px solid var(--line);
+}
+
+#leaderboard li::before {
+  content: counter(rank);
+  width: 1.5rem;
+  opacity: 0.6;
+}
+
+#leaderboard li.is-me {
+  font-weight: 600;
+}
+
+.board-name {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.board-count {
+  font-variant-numeric: tabular-nums;
+}
+
 #status {
   font-size: 0.85rem;
   opacity: 0.7;
+}
+
+dialog {
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 1.5rem;
+  background: var(--bg);
+  color: var(--text);
+  width: min(22rem, calc(100vw - 2rem));
+  box-sizing: border-box;
+}
+
+dialog::backdrop {
+  background: rgb(0 0 0 / 0.6);
+}
+
+dialog form {
+  display: grid;
+  gap: 1rem;
+}
+
+dialog label {
+  display: grid;
+  gap: 0.35rem;
+}
+
+dialog input[type="text"] {
+  padding: 0.5rem 0.6rem;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--empty);
+  color: var(--text);
+}
+
+dialog input[type="color"] {
+  width: 100%;
+  height: 2.5rem;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+dialog button[type="submit"] {
+  padding: 0.6rem;
+  border: 0;
+  border-radius: 6px;
+  background: var(--text);
+  color: var(--bg);
+  cursor: pointer;
 }

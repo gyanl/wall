@@ -9,6 +9,47 @@ const db = getDatabase(app);
 const COLS = 32, ROWS = 18;
 const wallEl = document.querySelector("#wall");
 const statusEl = document.querySelector("#status");
+const boardEl = document.querySelector("#leaderboard");
+const joinEl = document.querySelector("#join");
+const nameInput = document.querySelector("#name");
+const colourInput = document.querySelector("#colour");
+const meEl = document.querySelector("#me");
+
+// WHO YOU ARE: kept in localStorage, so you only have to pick once
+let player = null;
+try {
+  player = JSON.parse(localStorage.getItem("wall-player"));
+} catch {}
+
+function showPlayer() {
+  document.querySelector("#me-name").textContent = player.name;
+  document.querySelector("#me-swatch").style.background = player.colour;
+  meEl.hidden = false;
+}
+
+function askForPlayer() {
+  if (player) {
+    nameInput.value = player.name;
+    colourInput.value = player.colour;
+  }
+  joinEl.showModal();
+}
+
+document.querySelector("#join-form").addEventListener("submit", () => {
+  player = { name: nameInput.value.trim() || "Anonymous", colour: colourInput.value };
+  localStorage.setItem("wall-player", JSON.stringify(player));
+  showPlayer();
+});
+
+// You can't close the dialog without picking, the first time
+joinEl.addEventListener("cancel", (event) => {
+  if (!player) event.preventDefault();
+});
+
+meEl.addEventListener("click", askForPlayer);
+
+if (player) showPlayer();
+else askForPlayer();
 
 // Draw the empty grid once
 for (let i = 0; i < COLS * ROWS; i++) {
@@ -18,11 +59,11 @@ for (let i = 0; i < COLS * ROWS; i++) {
   wallEl.append(cell);
 }
 
-// WRITE: colour one square
+// WRITE: colour one square, and say who coloured it
 function paint(i) {
-  const colour = document.querySelector("#colour").value;
-  wallEl.children[i].style.background = colour;
-  set(ref(db, "wall/" + i), colour);
+  if (!player) return;
+  wallEl.children[i].style.background = player.colour;
+  set(ref(db, "wall/" + i), { colour: player.colour, name: player.name });
 }
 
 // Which square is under this point? (null if outside the wall)
@@ -60,13 +101,46 @@ window.addEventListener("pointerup", () => {
   last = null;
 });
 
+// LEADERBOARD: count who owns the most squares right now
+function showLeaderboard(squares) {
+  const scores = {};
+  for (const square of squares) {
+    if (!scores[square.name]) scores[square.name] = { name: square.name, colour: square.colour, count: 0 };
+    scores[square.name].count++;
+  }
+  const top = Object.values(scores).sort((a, b) => b.count - a.count).slice(0, 10);
+
+  boardEl.replaceChildren(...top.map((entry) => {
+    const li = document.createElement("li");
+    const swatch = document.createElement("span");
+    swatch.className = "swatch";
+    swatch.style.background = entry.colour;
+    const name = document.createElement("span");
+    name.className = "board-name";
+    name.textContent = entry.name;  // textContent, so nobody can inject HTML with their name
+    const count = document.createElement("span");
+    count.className = "board-count";
+    count.textContent = entry.count;
+    li.append(swatch, name, count);
+    if (player && entry.name === player.name) li.classList.add("is-me");
+    return li;
+  }));
+}
+
 // READ: runs now, and again on every change anyone makes
 onValue(ref(db, "wall"), (snapshot) => {
   const pixels = snapshot.val() || {};
+  const squares = [];
   for (const cell of wallEl.children) {
-    cell.style.background = pixels[cell.dataset.index] || "";
+    let square = pixels[cell.dataset.index];
+    // Squares painted before names existed are just a colour
+    if (typeof square === "string") square = { colour: square, name: "Anonymous" };
+    cell.style.background = square ? square.colour : "";
+    cell.title = square ? square.name : "";
+    if (square) squares.push(square);
   }
-  statusEl.textContent = Object.keys(pixels).length + " squares coloured";
+  showLeaderboard(squares);
+  statusEl.textContent = squares.length + " of " + COLS * ROWS + " squares coloured";
 }, (error) => {
   statusEl.textContent = "Couldn't read the wall: " + error.message;
 });
