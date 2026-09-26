@@ -6,7 +6,7 @@ import { firebaseConfig } from "./firebase-config.js";
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
-const COLS = 32, ROWS = 18;
+const COLS = 20, ROWS = 30;
 const wallEl = document.querySelector("#wall");
 const statusEl = document.querySelector("#status");
 const boardEl = document.querySelector("#leaderboard");
