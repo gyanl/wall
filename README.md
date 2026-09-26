@@ -1,4 +1,4 @@
-# Class Wall
+# The Wall
 
 A shared grid of squares for [Tech 1, Lecture 6](https://gyanl.com/tech1/lecture-6-localstorage-and-databases). Pick a name and a colour, then click or drag across the squares. They turn your colour on everyone's screen straight away, and a live leaderboard shows who owns the most squares. It's built with plain HTML, CSS and JavaScript and Firebase Realtime Database, with no build step.
 

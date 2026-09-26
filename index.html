@@ -3,35 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Class Wall</title>
+  <title>The Wall</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <!--
-    SECURITY EXERCISE (Tech 1, Lecture 6) — you have permission to attack THIS class wall only.
-
-    The whole point: firebase-config.js is public (it ships to every browser), so the ONLY thing
-    protecting the database is the security rules in the Firebase console. If those are still the
-    test-mode default ({ ".read": true, ".write": true }) the database is a wide-open text field.
-
-    Everything below runs from the browser console on the live page (script.js already has db, ref,
-    set, onValue in scope) or over plain HTTP against <databaseURL>/<path>.json.
-
-    Try these, then write rules that stop each one:
-      1. Read past the wall — fetch the DB root ("/.json"). What's readable that shouldn't be?
-      2. Paint without the app — set(ref(db, "wall/500"), { colour: "#000", name: "console" }).
-      3. Write outside the grid — wall/999999, or a new top-level key like "secrets".
-      4. Break the data shape — write a square that isn't { colour, name } and reload.
-      5. Wipe the wall — a single write of null to "wall" deletes everything.
-      6. Impersonate — name is just a string, no accounts. Why can't rules alone fix this?
-
-    The hardened rules in README.md defeat 1–5. Number 6 needs authentication (next lecture).
-    Rules of engagement: this database only, nothing sensitive (it's world-readable), clean up after.
-  -->
-
   <header>
-    <h1>Class Wall</h1>
-    <p>Click or drag across the squares. Everyone sees it straight away.</p>
+    <h1>The Wall</h1>
+    <p>Click or drag across the squares to capture squares.</p>
     <button type="button" id="me" class="me" hidden>
       <span class="swatch" id="me-swatch"></span>
       <span id="me-name"></span>
