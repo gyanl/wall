@@ -83,8 +83,8 @@ main {
 /* A two-dimensional grid of equal squares: a job for grid, not flexbox */
 #wall {
   flex: 1 1 20rem;
-  /* A tall 2:3 grid fits a phone; on a wide screen, stop it growing taller than the window */
-  max-width: calc((100dvh - 6rem) * 2 / 3);
+  /* A tall 5:6 grid fits a phone; on a wide screen, stop it growing taller than the window */
+  max-width: calc((100dvh - 6rem) * 5 / 6);
   display: grid;
   grid-template-columns: repeat(20, 1fr);
   gap: 1px;
